@@ -1,6 +1,11 @@
 
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using ProjetoFinalBloco2.Data;
+using ProjetoFinalBloco2.Model;
+using ProjetoFinalBloco2.Service.Implements;
+using ProjetoFinalBloco2.Service;
+using ProjetoFinalBloco2.Validator;
 
 namespace ProjetoFinalBloco2
 {
@@ -12,6 +17,7 @@ namespace ProjetoFinalBloco2
 
             // Add services to the container.
 
+           
             builder.Services.AddControllers()
                  .AddNewtonsoftJson(options =>
                  {
@@ -26,6 +32,11 @@ namespace ProjetoFinalBloco2
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString)
             );
+
+            builder.Services.AddTransient<IValidator<Produto>, ProdutoValidator>();
+
+            builder.Services.AddScoped<IProdutoService, ProdutoService>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -47,6 +58,7 @@ namespace ProjetoFinalBloco2
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 dbContext.Database.EnsureCreated();
             }
+            app.UseDeveloperExceptionPage();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -55,8 +67,9 @@ namespace ProjetoFinalBloco2
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
+            app.UseCors("MyPolicy");
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
