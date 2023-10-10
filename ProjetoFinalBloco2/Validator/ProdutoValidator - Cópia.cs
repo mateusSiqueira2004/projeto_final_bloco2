@@ -11,7 +11,7 @@ namespace ProjetoFinalBloco2.Validator
                 .NotEmpty()
                 .MinimumLength(0)
                 .MaximumLength(255);
-            RuleFor(p => p.Descricao)
+            RuleFor(p => p.Decricao)
                 .NotEmpty()
                 .MinimumLength(5)
                 .MaximumLength(255);

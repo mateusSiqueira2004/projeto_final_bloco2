@@ -34,8 +34,10 @@ namespace ProjetoFinalBloco2
             );
 
             builder.Services.AddTransient<IValidator<Produto>, ProdutoValidator>();
+            builder.Services.AddTransient<IValidator<Categoria>, CategoriaValidator>();
 
             builder.Services.AddScoped<IProdutoService, ProdutoService>();
+            builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

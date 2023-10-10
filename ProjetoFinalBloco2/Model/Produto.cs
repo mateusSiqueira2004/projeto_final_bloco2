@@ -17,7 +17,7 @@ namespace ProjetoFinalBloco2.Model
 
         [Column(TypeName = "VARCHAR")]
         [StringLength(255)]
-        public string? Decricao { get; set; } = string.Empty;
+        public string? Descricao { get; set; } = string.Empty;
 
         [Column(TypeName = "DATE")]
         [JsonConverter(typeof(DateOnlyJsonConverter))]
@@ -34,5 +34,6 @@ namespace ProjetoFinalBloco2.Model
         [StringLength(255)]
         public string? Foto { get; set; } = string.Empty;
 
+        public virtual Categoria? Categoria { get; set; }
     }
 }

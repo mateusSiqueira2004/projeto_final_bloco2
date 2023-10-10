@@ -15,7 +15,9 @@ namespace ProjetoFinalBloco2.Service.Implements
 
         public async Task<IEnumerable<Produto>> GetAll()
         {
-            return await _context.Produtos/*.Include(p => p.Categoria)*/.ToListAsync();
+            return await _context.Produtos.
+                Include(p => p.Categoria).
+                ToListAsync();
         }
 
         public async Task<Produto?> GetById(long id)
@@ -23,7 +25,7 @@ namespace ProjetoFinalBloco2.Service.Implements
             try
             {
                 var Produto = await _context.Produtos.
-                    //Include(p => p.Categoria).
+                    Include(p => p.Categoria).
                     FirstAsync(i => i.Id == id);
                 return Produto;
             }
@@ -36,7 +38,7 @@ namespace ProjetoFinalBloco2.Service.Implements
         public async Task<IEnumerable<Produto>> GetByNome(string nome)
         {
             var Produto = await _context.Produtos.
-                              //Include(p => p.Categoria).
+                               Include(p => p.Categoria).
                                Where(p => p.Nome.Contains(nome)).
                                ToListAsync();
 
@@ -47,14 +49,14 @@ namespace ProjetoFinalBloco2.Service.Implements
         {
             var Produto = await _context.Produtos.
                 Where(p => p.Preco == preco).
-                //Include(p => p.Categoria).
+                Include(p => p.Categoria).
                 ToListAsync();
             return Produto;
         }
 
         public async Task<Produto?> Create(Produto produto)
         {
-            /*if (produto.Categoria is not null)
+            if (produto.Categoria is not null)
             {
                 var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
 
@@ -62,7 +64,7 @@ namespace ProjetoFinalBloco2.Service.Implements
                     return null;
             }
 
-            produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(t => t.Id == produto.Categoria.Id) : null;*/
+            produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(t => t.Id == produto.Categoria.Id) : null;
 
             await _context.Produtos.AddAsync(produto);
             await _context.SaveChangesAsync();
@@ -81,7 +83,7 @@ namespace ProjetoFinalBloco2.Service.Implements
             var ProdutoUpdate = await _context.Produtos.FindAsync(produto.Id);
             if (ProdutoUpdate is null)
                 return null;
-            /*if (produto.Categoria is not null)
+            if (produto.Categoria is not null)
             {
                 var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
 
@@ -89,7 +91,7 @@ namespace ProjetoFinalBloco2.Service.Implements
                     return null;
             }
 
-            produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(t => t.Id == produto.Categoria.Id) : null;*/
+            produto.Categoria = produto.Categoria is not null ? _context.Categorias.FirstOrDefault(t => t.Id == produto.Categoria.Id) : null;
 
             _context.Entry(ProdutoUpdate).State = EntityState.Detached;
             _context.Entry(produto).State = EntityState.Modified;
